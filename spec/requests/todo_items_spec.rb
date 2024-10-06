@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/todo_items", type: :request do
+RSpec.describe "TodoItem", type: :request do
   
   let(:valid_attributes) { { name: 'valid', todo_list_id: todo_list.id } }
 
@@ -74,7 +74,7 @@ RSpec.describe "/todo_items", type: :request do
     end
   end
 
-  describe "PATCH /update" do
+  describe "PUT /complete" do
     let(:initial_name) { 'inital name' }
     let!(:todo_item) { create(:todo_item, name: initial_name) }
     let(:new_name) { 'new name' }
@@ -85,7 +85,6 @@ RSpec.describe "/todo_items", type: :request do
     end
 
     context "with valid parameters" do
-      
 
       it "updates the requested todo_item" do
         expect { subject }.to change {todo_item.reload.name }.from(initial_name).to(new_name)
