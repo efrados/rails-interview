@@ -4,7 +4,7 @@ describe API::TodoListsController do
   render_views
 
   describe 'GET index' do
-    let!(:todo_list) { TodoList.create(name: 'Setup RoR project') }
+    let!(:todo_list) { create(:todo_list) }
     let(:format) { [:json, :html].sample }
 
     subject { get :index, format: format }

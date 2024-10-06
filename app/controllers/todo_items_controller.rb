@@ -3,7 +3,6 @@ class TodoItemsController < ApplicationController
 
   # GET /todo_items or /todo_items.json
   def index
-    byebug
     @todo_items = TodoItem.all
   end
 
