@@ -1,0 +1,1 @@
+json.(@todo_item, :id, :name)
