@@ -35,3 +35,6 @@ rails_interview_test
 /config/master.key
 
 /node_modules
+
+# Ignore byebug history
+.byebug_history

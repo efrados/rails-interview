@@ -1,19 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "todo_items/show", type: :view do
-  before(:each) do
-    assign(:todo_item, TodoItem.create!(
-      name: "Name",
-      status: 1,
-      todo_list: todo_list
-    ))
-  end
+  let!(:todo_list) { create(:todo_list) }
+  let(:todo_item) { create(:todo_item, todo_list: todo_list, name: 'Name') }
 
-  let(:todo_list) {
-    TodoList.create!(
-      name: "list",
-    )
-  }
+  before { assign(:todo_item, todo_item) }
 
   it "renders attributes in <p>" do
     render

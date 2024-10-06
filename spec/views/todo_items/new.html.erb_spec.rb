@@ -1,18 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "todo_items/new", type: :view do
-  before(:each) do
-    assign(:todo_item, TodoItem.new(
-      name: "MyString",
-      status: 1,
-      todo_list: todo_list
-    ))
-  end
-  let!(:todo_list) {
-    TodoList.create!(
-      name: "list",
-    )
-  }
+  let!(:todo_list) { create(:todo_list) }
+  let(:todo_item) { build(:todo_item, todo_list: todo_list, name: 'Name') }
+
+  before { assign(:todo_item, todo_item) }
 
   it "renders new todo_item form" do
     render
