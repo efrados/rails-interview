@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe "todo_items/edit", type: :view do
+  let(:todo_list) {
+    TodoList.create!(
+      name: "list",
+    )
+  }
   let(:todo_item) {
     TodoItem.create!(
       name: "MyString",
       status: 1,
-      todo_lists: nil
+      todo_list: todo_list
     )
   }
 
@@ -22,7 +27,7 @@ RSpec.describe "todo_items/edit", type: :view do
 
       assert_select "input[name=?]", "todo_item[status]"
 
-      assert_select "input[name=?]", "todo_item[todo_lists_id]"
+      assert_select "input[name=?]", "todo_item[todo_list_id]"
     end
   end
 end

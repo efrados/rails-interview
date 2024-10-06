@@ -8,9 +8,9 @@ require 'rails_helper'
 # generator. If you are using any extension libraries to generate different
 # controller code, this generated spec may or may not pass.
 #
-# It only uses APIs available in rails and/or rspec-rails. There are a number
+# It only uses apis available in rails and/or rspec-rails. There are a number
 # of tools you can use to make these specs even more expressive, but we're
-# sticking to rails and rspec-rails APIs to keep things simple and stable.
+# sticking to rails and rspec-rails apis to keep things simple and stable.
 
 RSpec.describe "/todo_items", type: :request do
   
