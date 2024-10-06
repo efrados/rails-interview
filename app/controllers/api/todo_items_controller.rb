@@ -1,18 +1,14 @@
-module Api
-  class TodoItemsController < ApplicationController
-    protect_from_forgery with: :null_session
+# frozen_string_literal: true
+
+module API
+  class TodoItemsController < API::ApplicationController
     before_action :set_todo_item, except: :create
 
-    # POST /api/todolists/todo_list_id/todo_items/
     def create
-      @todo_item = todo_list.todo_items.create(name: params[:name])
+      @todo_item = TodoItem.new(resource_params)
 
-      respond_to :json
+      render json: @todo_item.errors, status: :unprocessable_entity unless @todo_item.save
     end
-
-    # Funcionalidad de completar todos web sincronica con background job
-# 3 operaciones desde la web agregar tests
-
 
     # PUT /api/todolists/todo_list_id/todo_items/id/complete
     def complete
@@ -25,24 +21,19 @@ module Api
     def destroy
       todo_item.destroy
 
-      respond_to :json
+      render json: todo_item
     end
 
     private
 
     attr_reader :todo_item
 
-    # TODO use permitted_attributes
-    # def permitted_attributes
-    #   params.require(:todo_items).permit(:name, :todo_list_id)
-    # end
-
-    def todo_list
-      @todo_list ||= TodoList.find(params[:todo_list_id]) 
+    def resource_params
+      params.permit(:id, :name, :todo_list_id)
     end
 
     def set_todo_item
-      @todo_item = todo_list.todo_items.find(params[:id])
+      @todo_item = TodoItem.find(resource_params[:id])
     end
   end
 end

@@ -1,10 +1,12 @@
-module Api
-  class TodoListsController < ApplicationController
+# frozen_string_literal: true
+
+module API
+  class TodoListsController < API::ApplicationController
     # GET /api/todolists
     def index
       @todo_lists = TodoList.all
 
-      respond_to :json
+      render json: @todo_lists
     end
   end
 end
