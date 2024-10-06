@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TodoItemsController < ApplicationController
-  before_action :set_todo_item, only: %i[ show edit update destroy ]
+  before_action :set_todo_item, only: %i[show edit update destroy]
 
   # GET /todo_items or /todo_items.json
   def index
@@ -7,8 +9,7 @@ class TodoItemsController < ApplicationController
   end
 
   # GET /todo_items/1 or /todo_items/1.json
-  def show
-  end
+  def show; end
 
   # GET /todo_items/new
   def new
@@ -16,8 +17,7 @@ class TodoItemsController < ApplicationController
   end
 
   # GET /todo_items/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /todo_items or /todo_items.json
   def create
@@ -25,7 +25,9 @@ class TodoItemsController < ApplicationController
 
     respond_to do |format|
       if @todo_item.save
-        format.html { redirect_to todo_item_url(@todo_item), notice: "Todo item was successfully created." }
+        format.html do
+          redirect_to todo_item_url(@todo_item), notice: 'Todo item was successfully created.'
+        end
         format.json { render :show, status: :created, location: @todo_item }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,9 @@ class TodoItemsController < ApplicationController
   def update
     respond_to do |format|
       if @todo_item.update(todo_item_params)
-        format.html { redirect_to todo_item_url(@todo_item), notice: "Todo item was successfully updated." }
+        format.html do
+          redirect_to todo_item_url(@todo_item), notice: 'Todo item was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @todo_item }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +56,20 @@ class TodoItemsController < ApplicationController
     @todo_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to todo_items_url, notice: "Todo item was successfully destroyed." }
+      format.html { redirect_to todo_items_url, notice: 'Todo item was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo_item
-      @todo_item = TodoItem.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def todo_item_params
-      params.require(:todo_item).permit(:name, :status, :todo_list_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_todo_item
+    @todo_item = TodoItem.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def todo_item_params
+    params.require(:todo_item).permit(:name, :status, :todo_list_id)
+  end
 end

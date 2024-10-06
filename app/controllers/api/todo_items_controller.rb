@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module API
   class TodoItemsController < API::ApplicationController
     before_action :set_todo_item, except: :create

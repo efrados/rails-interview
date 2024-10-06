@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe TodoItem, type: :model do
   describe 'associations' do
     it 'contains expected associations' do
-      is_expected.to belong_to(:todo_list)
+      expect(subject).to belong_to(:todo_list)
     end
   end
 
@@ -15,7 +17,8 @@ RSpec.describe TodoItem, type: :model do
 
   describe 'enums' do
     it 'defines status' do
-      should define_enum_for(:status).with_values([:created, :completed]).with_default(:created)
+      expect(subject).to define_enum_for(:status).with_values(%i[created
+                                                                 completed]).with_default(:created)
     end
   end
 end

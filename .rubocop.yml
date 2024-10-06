@@ -1,0 +1,94 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'bin/bundle'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - '.git/**/*'
+    - 'tmp/**/*'
+    - db/schema.rb
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/StubbedMock:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 5
+
+RSpec/ExampleLength:
+  Max: 8
+
+RSpec/ContextWording:
+  Enabled: true
+
+Layout/LineLength:
+  Max: 100
+  # To make it possible to copy or click on URIs in the code, we allow lines
+  # containing a URI to be longer than Max.
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  Exclude:
+  - config/environments/development.rb
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 24
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 100
+
+Style/Documentation:
+  Enabled: false
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+
+Style/HashSyntax:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+Rails/WhereNotWithMultipleConditions:
+  Enabled: true
+
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
+# Todo enable this using rails-i18n
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/CreateTableWithTimestamps:
+  Enabled: true
+  Exclude:
+  - db/migrate/20230404162028_add_todo_lists.rb
