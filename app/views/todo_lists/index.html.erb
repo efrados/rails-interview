@@ -3,7 +3,8 @@
 <div>
   <% @todo_lists.each do |todo_list| %>
     <div>
-      #<%= todo_list.id %> | <%= todo_list.name %>
+      #<%= todo_list.id %> | <%= todo_list.name %> |
+      <%= link_to 'complete all items of a list', complete_todo_list_path(todo_list) %>
     </div>
   <% end %>
 </div>

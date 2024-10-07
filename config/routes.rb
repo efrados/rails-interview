@@ -11,7 +11,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :todo_lists, only: %i[index new], path: :todolists
+  resources :todo_lists, only: %i[index new], path: :todolists do
+    member do
+      get 'complete'
+    end
+  end
+
   resources :todo_items, path: :todoitems do
     member do
       put 'complete'
