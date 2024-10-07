@@ -9,7 +9,7 @@ RSpec.describe 'TodoItem', type: :request do
 
   let(:todo_list) { create(:todo_list) }
 
-  describe 'GET /index' do
+  describe 'GET /todo_items' do
     let!(:todo_items) { create_list(:todo_item, 2) }
 
     it 'renders a successful response' do
@@ -19,7 +19,7 @@ RSpec.describe 'TodoItem', type: :request do
     end
   end
 
-  describe 'GET /show' do
+  describe 'GET /todo_items/id' do
     let!(:todo_item) { create(:todo_item) }
 
     it 'renders a successful response' do
@@ -29,14 +29,14 @@ RSpec.describe 'TodoItem', type: :request do
     end
   end
 
-  describe 'GET /new' do
+  describe 'GET /todo_items/new' do
     it 'renders a successful response' do
       get new_todo_item_url
       expect(response).to be_successful
     end
   end
 
-  describe 'GET /edit' do
+  describe 'GET /todo_items/edit' do
     let!(:todo_item) { create(:todo_item) }
 
     it 'renders a successful response' do
@@ -45,7 +45,7 @@ RSpec.describe 'TodoItem', type: :request do
     end
   end
 
-  describe 'POST /create' do
+  describe 'POST /todo_items' do
     context 'with valid parameters' do
       it 'creates a new TodoItem' do
         expect { post todo_items_url, params: { todo_item: valid_attributes } }
@@ -73,9 +73,10 @@ RSpec.describe 'TodoItem', type: :request do
     end
   end
 
-  describe 'PUT /complete' do
+  describe 'PATCH /todo_items/id' do
     subject do
       patch todo_item_url(todo_item), params: { todo_item: new_attributes }
+      response
     end
 
     let(:initial_name) { 'inital name' }
@@ -89,9 +90,7 @@ RSpec.describe 'TodoItem', type: :request do
       end
 
       it 'redirects to the todo_item' do
-        subject
-
-        expect(response).to redirect_to(todo_item_url(todo_item))
+        expect(subject).to redirect_to(todo_item_url(todo_item))
       end
     end
 
@@ -99,9 +98,46 @@ RSpec.describe 'TodoItem', type: :request do
       let(:new_attributes) { { name: nil } }
 
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
+        expect(subject).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe 'PUT /todo_items/id/complete' do
+    subject do
+      put complete_todo_item_url(todo_item)
+      response
+    end
+
+    let!(:todo_item) { create(:todo_item) }
+
+    context 'when the todo item is ready to be completed' do
+      it 'updates the requested todo_item' do
+        expect { subject }.to change { todo_item.reload.status }.from('created').to('completed')
+      end
+
+      it 'redirects to the todo_item' do
+        expect(subject).to redirect_to(todo_item_url(todo_item))
+      end
+
+      it 'shows the success message' do
+        subject
+
+        expect(request.flash[:notice]).to eq('Todo item was successfully completed.')
+      end
+    end
+
+    context 'when the todo item is already completed' do
+      let!(:todo_item) { create(:todo_item, :completed) }
+
+      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         subject
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not updates the requested todo_item' do
+        expect { subject }.not_to change { todo_item.reload.status }.from('completed')
       end
     end
   end
