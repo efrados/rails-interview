@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TodoItemsController < ApplicationController
-  before_action :set_todo_item, only: %i[show edit update destroy]
+  before_action :set_todo_item, only: %i[show edit update destroy complete]
 
   # GET /todo_items or /todo_items.json
   def index
@@ -48,6 +48,15 @@ class TodoItemsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @todo_item.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def complete
+    if @todo_item.completed?
+      render :show, status: :unprocessable_entity
+    else
+      @todo_item.completed!
+      redirect_to todo_item_url(@todo_item), notice: 'Todo item was successfully completed.'
     end
   end
 
