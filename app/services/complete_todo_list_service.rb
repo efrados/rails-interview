@@ -1,25 +1,33 @@
 # frozen_string_literal: true
 
 class CompleteTodoListService
+  def self.call(todo_list)
+    new(todo_list).complete!
+  end
+
   def initialize(todo_list)
     @todo_list = todo_list
-    
   end
 
   def complete!
-    todo_list.todo_items.each(&:completed!)
-    if todo_list.todo_items.all(&:completed?)
-      Rails.logger.info("Completed SUCCESSFULLY all Todo Items of Todo List id: #{todo_list.id}")
+    if todo_list.todo_items.count.zero?
+      log_error("There are no Todo Items in Todo List id: #{todo_list.id}")
+    elsif todo_list.todo_items.all?(&:completed?)
+      log_error("There are no Todo Items to complete in Todo List id: #{todo_list.id}")
     else
-      Rails.logger.info("FAILED to complete all Todo Items of Todo List id: #{todo_list.id}")
+      complete_todo_items
     end
-  end
-
-  def call
-    complete!
   end
 
   private
 
   attr_reader :todo_list
+
+  def log_error(message)
+    Rails.logger.error(message)
+  end
+
+  def complete_todo_items
+    todo_list.todo_items.each { |todo_item| todo_item.completed! unless todo_item.completed! }
+  end
 end

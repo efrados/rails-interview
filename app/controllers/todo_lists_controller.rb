@@ -9,11 +9,11 @@ class TodoListsController < ApplicationController
 
     respond_to :html
   end
-  
+
   # GET /todolists/new
   def new
     @todo_list = TodoList.new
-    
+
     respond_to :html
   end
 
